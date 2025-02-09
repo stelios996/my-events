@@ -1,0 +1,32 @@
+# Node modules
+*/node_modules/
+
+# Ignore all .env files (backend, frontend, etc.)
+*.env
+
+# Logs
+*/*.log
+
+# Ignore dist/ and build/ directories in backend and frontend
+*/dist/
+*/build/
+
+# Ignore all .idea directories (WebStorm project settings)
+*/.idea/
+
+# macOS system files (if working cross-platform)
+.DS_Store
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+
+# Vite specific (optional, but good to have)
+frontend/.vite/
+
+# Other system or temporary files
+*.swp
+*.swo
+
+# Ignore uploaded files in the backend
+backend/uploads/
