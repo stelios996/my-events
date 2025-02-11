@@ -6,7 +6,10 @@ const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_BASE_URL || 'http://localhost:3000',
+  methods: "GET, POST, PUT, DELETE",
+}));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
