@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
 import useFetch from '../hooks/useFetch.jsx';
-import NavigationBar from './NavigationBar.jsx';
+import NavigationBar from './NavigationBar/NavigationBar.jsx';
 
 const Home = () => {
   const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;

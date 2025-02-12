@@ -1,0 +1,36 @@
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 3rem 0 3rem;
+    background-color: #0f0f0f;
+    box-shadow: 0 0 0.5rem rgba(256, 256, 256, 0.3);
+}
+
+.logo img{
+    height: 2.5rem;
+}
+
+.navLinks{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 1.2rem;
+}
+
+.navLinks li{
+    display: inline-block;
+}
+
+.navLinks a{
+    text-decoration: none;
+    color: #ffffff9f;
+    font-size: 1.25rem;
+}
+
+.navLinks a:hover,
+.active{
+    color: #ffffff !important;
+    font-weight: bold;
+}
