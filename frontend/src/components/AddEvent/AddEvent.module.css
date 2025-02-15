@@ -1,0 +1,122 @@
+.container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    color:#fff;
+    transform: translateY(27.8rem);
+}
+
+.open{
+    transform: translateY(0);
+    transition: transform 0.8s ease-in-out;
+}
+
+.handler{
+    background-color: #181818;
+    padding:0.5rem 1rem;
+    border-radius: 0.4rem 0.4rem 0 0;
+    width:7rem;
+    text-align: center;
+    box-shadow: 0 0 0.3rem rgba(255, 255, 255, 0.3);
+    clip-path: inset(-0.3rem -0.3rem 0 -0.3rem);
+    z-index: 100;
+}
+
+.handler span:hover{
+    cursor: pointer;
+}
+
+.formContainer {
+    background-color: #181818;
+    width: 100%;
+    border-radius: 0.4rem 0.4rem 0 0;
+    box-shadow: 0 0 0.3rem rgba(256, 256, 256, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formContainer form{
+    margin-left: -1.1rem;
+}
+
+.formContainer form fieldset{
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.inputContainer label{
+    font-style: italic;
+}
+
+.inputContainer input{
+    width: 100%;
+    padding: 0.4rem;
+}
+
+.inputError{
+    font-style: italic;
+    color: #ff4500;
+    font-size: 0.8rem;
+    margin: 0.3rem 0;
+}
+
+.formButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.formButtons button{
+    width: 5rem;
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border: none;
+}
+
+.formButtons button:disabled{
+    cursor: not-allowed;
+    background-color: #708090;
+    color: #181818;
+}
+
+.submitButton{
+    background-color: #fff;
+    color: #181818;
+
+    &:hover{
+        background-color: #32cd32;
+        color: #fff;
+    }
+}
+
+.resetButton{
+    background-color: #fff;
+    color: #181818;
+
+    &:hover{
+        background-color: #b22222;
+        color: #fff;
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import {Outlet} from 'react-router-dom';
 import useFetch from '../hooks/useFetch.jsx';
 import NavigationBar from './NavigationBar/NavigationBar.jsx';
+import AddEvent from './AddEvent/AddEvent.jsx';
 
 const Home = () => {
   const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
@@ -23,7 +24,9 @@ const Home = () => {
           {data.map(event =>
             <li key={event._id}> Title: {event.title} - Date: {event.date} - Time: {event.time} - Venue: {event.venue} - Banner: {event.banner}</li>
           )}
-        </ul>}
+        </ul>
+      }
+      <AddEvent />
     </>
   );
 };
