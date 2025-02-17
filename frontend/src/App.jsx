@@ -1,6 +1,6 @@
 import './App.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import EventList from './components/EventList.jsx';
+import EventList from './components/EventList/EventList.jsx';
 import Calendar from './components/Calendar.jsx';
 import Home from './components/Home.jsx';
 

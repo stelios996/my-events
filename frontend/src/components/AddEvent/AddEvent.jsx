@@ -1,15 +1,31 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
+import {useMutation} from "@tanstack/react-query";
+import {addEvent, queryClient} from "../../api/api.js";
 import styles from './AddEvent.module.css';
 
 const AddEvent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({mode: 'onChange'});
 
+  const {mutate, isPending, isError, error} = useMutation({
+    mutationFn: addEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['events']});
+      setIsOpen(!isOpen);
+    }
+  });
+
   const handleFormSubmission = (data) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('date', data.date);
+    formData.append('time', data.time);
+    formData.append('venue', data.venue);
+    formData.append('banner', data.banner[0]);
+
+    mutate(formData);
     reset();
-    //setIsOpen(!isOpen);
   };
 
   return (
@@ -53,14 +69,18 @@ const AddEvent = () => {
             {errors.banner && <p className={styles.inputError}>{errors.banner.message}</p>}
           </div>
 
-          <div className={styles.formButtons}>
-            <button type='submit' className={styles.submitButton} disabled={!isValid}>Add</button>
-            <button type='button' className={styles.resetButton} onClick={() => reset()}>Reset</button>
-          </div>
+          {isPending && <p>Saving...</p>}
+          {!isPending && (
+            <div className={styles.formButtons}>
+              <button type='submit' className={styles.submitButton} disabled={!isValid}>Add</button>
+              <button type='button' className={styles.resetButton} onClick={() => reset()}>Reset</button>
+            </div>
+          )}
+          {isError && <p>Error: {error || 'An unknown error occurred'}</p>}
         </form>
       </div>
     </div>
   );
 }
 
-export default AddEvent
+export default AddEvent;
