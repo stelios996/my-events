@@ -8,10 +8,6 @@ import styles from './EventList.module.css';
 const EventList = () => {
   const [isSelected, setIsSelected] = useState(null);
 
-  const handleSelected = (id) => {
-    setIsSelected(id);
-  }
-
   const {data, isLoading, isError, error} = useQuery({
     queryKey: ['events'],
     queryFn: ({signal}) => getAllEvents({signal}),
@@ -45,7 +41,7 @@ const EventList = () => {
                     <EventListItem
                       key={event._id}
                       event={event}
-                      onClick={() => handleSelected(event._id)}
+                      onClick={() => setIsSelected(event._id)}
                     />
                   )}
                 </ul>

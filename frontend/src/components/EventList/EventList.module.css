@@ -1,5 +1,5 @@
 .contentContainer{
-    width: calc(100% - 6rem);
+    width: calc(100vw - 6rem);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    width: calc(66% - 3rem);
+    width: calc(66vw - 6rem);
     padding: 0;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .contentContainer.wide .listContainer{
-    width: calc(90% - 3rem);
+    width: calc(70vw - 6rem);
 }
 
 .listTitles{
