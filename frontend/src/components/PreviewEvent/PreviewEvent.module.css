@@ -97,7 +97,8 @@
     bottom: 3rem;
 }
 
-.buttonsContainer button{
+.buttonsContainer button,
+.buttonsDeletePromptContainer button{
     width: 5rem;
     border-radius: 0.4rem;
     padding: 0.5rem;
@@ -125,6 +126,15 @@
 .closeButton:hover{
     background-color: #ffffff9f;
     color: #fff;
+}
+
+.deletePromptContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 3rem;
 }
 
 /*screen sizes up to 480px width*/
@@ -172,7 +182,8 @@
         padding-bottom: 0.7rem;
     }
 
-    .buttonsContainer{
+    .buttonsContainer,
+    .deletePromptContainer{
         bottom: 2rem;
     }
 }

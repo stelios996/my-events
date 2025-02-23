@@ -3,7 +3,7 @@ const path = require('path');
 
 const deleteOldFile = (oldFilePath) => {
   return new Promise((resolve, reject) => {
-    const filePath = path.join(__dirname, '..', 'uploads', oldFilePath);
+    const filePath = path.join(__dirname, '..', oldFilePath);
     fs.unlink(filePath, (err) => {
       if (err) {
         console.error('Error deleting file:', err);
