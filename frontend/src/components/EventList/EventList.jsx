@@ -24,14 +24,14 @@ const EventList = () => {
       {!isLoading && !isError &&
         <>
           {hasData ? (
-              <div className={`${styles.contentContainer} ${!isSelected ? styles.wide : ''}`}>
+              <div className={styles.contentContainer}>
                 {isSelected &&
                   <PreviewEvent
                     selectedEvent={selectedEvent}
                     onClose={() => setIsSelected(null)}
                   />
                 }
-                <ul className={styles.listContainer}>
+                <ul className={`${styles.listContainer} ${!isSelected ? styles.wide : ''}`}>
                   <div className={styles.listTitles}>
                     <h1>Your event list</h1>
                     {!isSelected && <span>Click on an event to preview</span>}

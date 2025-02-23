@@ -37,3 +37,14 @@ p{
 .itemContainer svg{
     margin-right: 0.5rem;
 }
+
+/*screen sizes up to 980px width*/
+@media (max-width: 980px){
+    .title{
+        font-size: 1.3rem!important;
+    }
+
+    p{
+        font-size: 0.8rem;
+    }
+}

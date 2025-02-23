@@ -10,8 +10,10 @@
     height: calc(100vh - 6rem);
     background-color: #181818;
     border-radius: 0.4rem;
-    border-right: 1px solid #ffffff9f;
-    position: relative;
+    border: 1px solid #ffffff9f;
+    /*position: relative;*/
+    position: fixed;
+    top: 4rem;
 }
 
 .imageContainer{
@@ -125,3 +127,52 @@
     color: #fff;
 }
 
+/*screen sizes up to 480px width*/
+@media (max-width: 480px){
+    .previewContainer{
+        width: calc(100vw - 6rem);
+    }
+
+    .infoContainer{
+        margin: 0.5rem 0;
+    }
+
+    .previewContainer p{
+        font-size: 0.9rem;
+    }
+
+    .title{
+        font-size: 1.3rem!important;
+        padding-bottom: 1rem;
+    }
+}
+
+/*screen sizes width range 481px-768px*/
+@media (min-width: 481px) and (max-width: 768px){
+    .previewContainer{
+        width: calc(70vw - 6rem);
+    }
+
+    .infoContainer{
+        margin: 0.5rem 0;
+    }
+}
+
+/*screen sizes width range 481px-768px*/
+@media (min-width: 769px) and (max-width: 980px){
+    .previewContainer{
+        width: calc(70vw - 6rem);
+    }
+
+    .infoContainer{
+        margin: 0.3rem 0;
+    }
+
+    .title{
+        padding-bottom: 0.7rem;
+    }
+
+    .buttonsContainer{
+        bottom: 2rem;
+    }
+}
