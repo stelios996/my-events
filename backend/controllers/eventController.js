@@ -34,7 +34,13 @@ const addEventController = async (req,res) => {
 
 const getAllEventsController = async (req,res) => {
   try{
-    const events = await Event.find();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const futureEvents = await Event.find({ date: { $gte: today } }).sort({ date: 1 });
+    const pastEvents = await Event.find({ date: { $lt: today } }).sort({ date: -1 });
+
+    const events = {futureEvents, pastEvents};
 
     res.status(200).json(events);
   }catch(err){
