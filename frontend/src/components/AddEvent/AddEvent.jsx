@@ -11,12 +11,9 @@ const AddEvent = () => {
         <span>{isOpen ? 'Show less' : 'Add event'}</span>
       </div>
 
-      <div className={styles.formContainer}>
+      <div className={styles.addFormContainer}>
         <h4>Fill in the event details</h4>
-        <EventForm
-          onClose={() => setIsOpen(false)}
-          submitButton='Add'
-        />
+        <EventForm onClose={() => setIsOpen(false)} submitButton='Add' />
       </div>
     </div>
   );

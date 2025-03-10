@@ -1,8 +1,8 @@
-form{
+.formContainer{
     margin-left: -1.1rem;
 }
 
-form fieldset{
+.formContainer fieldset{
     border: none;
     padding: 0;
     display: flex;
@@ -41,8 +41,13 @@ form fieldset{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    bottom: 3rem;
+    margin-bottom: 2rem;
+
+    &.buttonsBotPosition{
+        position: absolute;
+        bottom: 3rem;
+        margin-bottom: 0;
+    }
 }
 
 .formButtons button{

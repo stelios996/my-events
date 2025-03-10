@@ -84,7 +84,7 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
       )}
       {selectedEvent && isUpdateFormVisible && (
         <div className={styles.updateFormContainer}>
-          <p>Change the fields you want update</p>
+          <h4>Edit the fields you want to update</h4>
           <EventForm onClose={() => setIsUpdateFormVisible(false)} submitButton='Update' eventData={selectedEvent}/>
         </div>
       )}

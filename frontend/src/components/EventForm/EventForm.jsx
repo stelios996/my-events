@@ -6,14 +6,14 @@ import styles from './EventForm.module.css';
 
 const EventForm = ({onClose, submitButton, eventData = {}}) => {
   const isUpdateMode = !!eventData._id;
-  const {register, handleSubmit, reset, formState: {errors, isValid}, setValue} = useForm({mode: 'onChange', defaultValues: eventData});
+  const {register, handleSubmit, reset, formState: {errors, isValid}, setValue} = useForm({mode: 'onChange'});
 
   useEffect(() => {
     if(isUpdateMode && eventData) {
       for(let key in eventData)
         setValue(key, key === 'date' ? eventData[key].split("T")[0] : eventData[key]);
     }
-  }, [eventData, setValue]);
+  }, []);
 
   const {mutate, isPending, isError, error} = useMutation({
     mutationFn: (data) => {
@@ -40,7 +40,7 @@ const EventForm = ({onClose, submitButton, eventData = {}}) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmission)}>
+    <form className={styles.formContainer} onSubmit={handleSubmit(handleFormSubmission)}>
       <div className={styles.inputContainer}>
         <label htmlFor='title'>Title:</label>
         <input type='text' id='title' {...register('title', {required: 'required field'})}/>
@@ -75,7 +75,7 @@ const EventForm = ({onClose, submitButton, eventData = {}}) => {
 
       {isPending && <p>Saving...</p>}
       {!isPending && (
-        <div className={styles.formButtons}>
+        <div className={`${styles.formButtons} ${isUpdateMode ? styles.buttonsBotPosition : ''}`}>
           <button type='submit' className={styles.submitButton} disabled={!isValid}>{submitButton}</button>
           <button type='button' className={styles.resetButton} onClick={() => reset()}>Reset</button>
           {isUpdateMode && <button type='button' className={styles.cancelButton} onClick={onClose}>Cancel</button>}
