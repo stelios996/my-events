@@ -1,4 +1,4 @@
-const { createEventObject, validateEventFields } = require('../utils/eventUtils');
+const { createEventObject, createEventObjectForUpdate, validateEventFields } = require('../utils/eventUtils');
 const { deleteOldFile } = require('../utils/fileUtils');
 const Event = require('../models/event');
 const multer = require("multer");
@@ -14,7 +14,10 @@ const logBrowserController = async (req, res) => {
 const addEventController = async (req,res) => {
   try{
     const {title, date, time, venue} = req.body;
-    const banner = req.file ? req.file.path : null;
+    const banner = req.file ? req.file.path : undefined;
+
+    if (!banner)
+      return res.status(400).json({error: 'No file attached'});
 
     const validationError = validateEventFields(title, date, time, venue);
     if (validationError)
@@ -63,7 +66,7 @@ const getEventController = async (req,res) => {
 const updateEventController = async (req,res) => {
   try{
     const {title, date, time, venue} = req.body;
-    const banner = req.file ? req.file.path : req.body.banner;
+    let banner = req.file ? req.file.path : undefined;
 
     const validationError = validateEventFields(title, date, time, venue);
     if (validationError)
@@ -73,10 +76,12 @@ const updateEventController = async (req,res) => {
     if (!event)
       return res.status(404).json({ message: 'Event not found' });
 
-    if (req.file && event.banner && (event.banner !== banner))
+    if (req.file && event.banner)
       await deleteOldFile(event.banner);
+    else
+      banner = event.banner;
 
-    const newEvent = createEventObject(title, date, time, venue, banner);
+    const newEvent = createEventObjectForUpdate(title, date, time, venue, banner);
 
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.id,

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { deleteEvent } from '../../api/api.js';
-import PreviewImage from "../PreviewImage/PreviewImage.jsx";
+import PreviewImage from '../PreviewImage/PreviewImage.jsx';
+import EventForm from '../EventForm/EventForm.jsx';
 import { formatDate } from '../../util/util.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faClock, faLocationDot, faPen, faXmark, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -12,9 +13,11 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
   const queryClient = useQueryClient();
   const [isPreviewImage, setIsPreviewImage] = useState(false);
   const [isDeletePromptVisible, setIsDeletePromptVisible] = useState(false);
+  const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
 
   useEffect(() => {
     setIsDeletePromptVisible(false);
+    setIsUpdateFormVisible(false);
   }, [selectedEvent]);
 
   const handleCloseImagePreview = (e) =>{
@@ -41,7 +44,7 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
 
   return (
     <div className={styles.previewContainer}>
-      {selectedEvent && (
+      {selectedEvent && !isUpdateFormVisible && (
         <>
           <div className={styles.imageContainer}>
             <div className={styles.imageOverlay}>
@@ -56,7 +59,7 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
           </div>
           {!isDeletePromptVisible && (
             <div className={styles.buttonsContainer}>
-              <button className={styles.editButton} type='button'><FontAwesomeIcon icon={faPen} /> Edit</button>
+              <button className={styles.editButton} type='button' onClick={() => setIsUpdateFormVisible(true)}><FontAwesomeIcon icon={faPen} /> Edit</button>
               <button className={styles.deleteButton} type='button' onClick={handleDeletePrompt}><FontAwesomeIcon icon={faXmark} /> Delete</button>
               <button className={styles.closeButton} type='button' onClick={onClose}><FontAwesomeIcon icon={faArrowRightFromBracket} /> Close</button>
             </div>
@@ -78,6 +81,12 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
           {isError && <p>Error: {error || 'An unknown error occurred when deleting'}</p>}
           {isPreviewImage && <PreviewImage imageSrc={`${backendBaseUrl}${selectedEvent.banner}`} onClose={handleCloseImagePreview}/>}
         </>
+      )}
+      {selectedEvent && isUpdateFormVisible && (
+        <div className={styles.updateFormContainer}>
+          <p>Change the fields you want update</p>
+          <EventForm onClose={() => setIsUpdateFormVisible(false)} submitButton='Update' eventData={selectedEvent}/>
+        </div>
       )}
     </div>
   );

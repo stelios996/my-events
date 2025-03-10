@@ -1,0 +1,91 @@
+form{
+    margin-left: -1.1rem;
+}
+
+form fieldset{
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.inputContainer label{
+    font-style: italic;
+}
+
+.inputContainer input{
+    width: 100%;
+    padding: 0.4rem;
+}
+
+.inputError{
+    font-style: italic;
+    color: #ff4500;
+    font-size: 0.8rem;
+    margin: 0.3rem 0;
+}
+
+.formButtons{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 3rem;
+}
+
+.formButtons button{
+    width: 5rem;
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border: none;
+}
+
+.formButtons button:disabled{
+    cursor: not-allowed;
+    background-color: #708090;
+    color: #181818;
+}
+
+.submitButton{
+    background-color: #fff;
+    color: #181818;
+
+    &:hover{
+        background-color: #32cd32;
+        color: #fff;
+    }
+}
+
+.resetButton{
+    background-color: #fff;
+    color: #181818;
+
+    &:hover{
+        background-color: #b22222;
+        color: #fff;
+    }
+}
+
+.cancelButton{
+    background-color: #fff;
+    color: #181818;
+
+    &:hover{
+        background-color: #ffffff9f;
+        color: #fff;
+    }
+}

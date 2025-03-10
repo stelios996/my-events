@@ -10,6 +10,16 @@ const createEventObject = (title, date, time, venue, banner) => {
   });
 };
 
+const createEventObjectForUpdate = (title, date, time, venue, banner) => {
+  return {
+    title,
+    date: new Date(date),
+    time,
+    venue,
+    banner
+  };
+};
+
 const validateEventFields = (title, date, time, venue) => {
 
   if (!title)
@@ -45,6 +55,7 @@ const isValidTime = (time) => {
 
 const utils = {
   createEventObject,
+  createEventObjectForUpdate,
   validateEventFields
 };
 
