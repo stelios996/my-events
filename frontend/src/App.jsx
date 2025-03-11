@@ -1,7 +1,7 @@
 import './App.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import EventList from './components/EventList/EventList.jsx';
-import Calendar from './components/Calendar.jsx';
+import Calendar from './components/Calendar/Calendar.jsx';
 import Home from './components/Home/Home.jsx';
 
 const router = createBrowserRouter([
