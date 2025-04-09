@@ -42,53 +42,58 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
     mutate(selectedEvent._id);
   };
 
+  if(!selectedEvent)
+    return <div>Event not found!</div>;
+
   return (
-    <div className={styles.previewContainer}>
-      {selectedEvent && !isUpdateFormVisible && (
-        <>
-          <div className={styles.imageContainer}>
-            <div className={styles.imageOverlay}>
-              <FontAwesomeIcon icon={faExpand} onClick={() => setIsPreviewImage(true)} />
+    <>
+      <div className={styles.previewContainer}>
+        {!isUpdateFormVisible ? (
+          <>
+            <div className={styles.imageContainer}>
+              <div className={styles.imageOverlay}>
+                <FontAwesomeIcon icon={faExpand} onClick={() => setIsPreviewImage(true)} />
+              </div>
+              <img src={`${backendBaseUrl}${selectedEvent.banner}`} alt={selectedEvent.title} />
             </div>
-            <img src={`${backendBaseUrl}${selectedEvent.banner}`} alt={selectedEvent.title} />
-          </div>
-          <div className={styles.infoContainer}>
-            <p className={styles.title}>{selectedEvent.title}</p>
-            <p><FontAwesomeIcon icon={faClock} /> {formatDate(selectedEvent.date)} @ {selectedEvent.time} </p>
-            <p><FontAwesomeIcon icon={faLocationDot} /> {selectedEvent.venue}</p>
-          </div>
-          {!isDeletePromptVisible && (
-            <div className={styles.buttonsContainer}>
-              <button className={styles.editButton} type='button' onClick={() => setIsUpdateFormVisible(true)}><FontAwesomeIcon icon={faPen} /> Edit</button>
-              <button className={styles.deleteButton} type='button' onClick={handleDeletePrompt}><FontAwesomeIcon icon={faXmark} /> Delete</button>
-              <button className={styles.closeButton} type='button' onClick={onClose}><FontAwesomeIcon icon={faArrowRightFromBracket} /> Close</button>
+
+            <div className={styles.infoContainer}>
+              <p className={styles.title}>{selectedEvent.title}</p>
+              <p><FontAwesomeIcon icon={faClock} /> {formatDate(selectedEvent.date)} @ {selectedEvent.time} </p>
+              <p><FontAwesomeIcon icon={faLocationDot} /> {selectedEvent.venue}</p>
             </div>
-          )}
-          {isDeletePromptVisible && (
-            <div className={styles.deletePromptContainer}>
-              {isPending && <p>Deleting, please wait...</p>}
-              {!isPending && (
-                <>
-                  <p>Are you sure you want to delete this event?</p>
-                  <div className={styles.buttonsDeletePromptContainer}>
-                    <button className={styles.deleteButton} type='button' onClick={handleDeleteEvent}> Yes</button>
-                    <button className={styles.closeButton} type='button' onClick={handleDeletePrompt}> No</button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-          {isError && <p>Error: {error || 'An unknown error occurred when deleting'}</p>}
-          {isPreviewImage && <PreviewImage imageSrc={`${backendBaseUrl}${selectedEvent.banner}`} onClose={handleCloseImagePreview}/>}
-        </>
-      )}
-      {selectedEvent && isUpdateFormVisible && (
-        <div className={styles.updateFormContainer}>
-          <h4>Edit the fields you want to update</h4>
+
+            {!isDeletePromptVisible ? (
+              <div className={styles.buttonsContainer}>
+                <button type='button' className={styles.editButton} onClick={() => setIsUpdateFormVisible(true)}><FontAwesomeIcon icon={faPen} /> Edit</button>
+                <button type='button' className={styles.deleteButton} onClick={handleDeletePrompt}><FontAwesomeIcon icon={faXmark} /> Delete</button>
+                <button type='button' className={styles.closeButton} onClick={onClose}><FontAwesomeIcon icon={faArrowRightFromBracket} /> Close</button>
+              </div>
+            ) : (
+              <div className={styles.deletePromptContainer}>
+                {isPending && <p>Deleting, please wait...</p>}
+                {!isPending && (
+                  <>
+                    <p>Are you sure you want to delete this event?</p>
+                    <div className={styles.buttonsDeletePromptContainer}>
+                      <button className={styles.deleteButton} type='button' onClick={handleDeleteEvent}> Yes</button>
+                      <button className={styles.closeButton} type='button' onClick={handleDeletePrompt}> No</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+            {isError && <p>Error: {error || 'An unknown error occurred when deleting'}</p>}
+          </>
+        ) :
           <EventForm onClose={() => setIsUpdateFormVisible(false)} submitButton='Update' eventData={selectedEvent}/>
-        </div>
-      )}
-    </div>
+        }
+      </div>
+
+      {isPreviewImage &&
+        <PreviewImage imageSrc={`${backendBaseUrl}${selectedEvent.banner}`} onClose={handleCloseImagePreview}/>
+      }
+    </>
   );
 }
 

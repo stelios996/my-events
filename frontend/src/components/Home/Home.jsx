@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <>
       <NavigationBar />
-      <div className={styles.contentContainer}>
+      <div className={styles.outletContainer}>
         <Outlet/>
       </div>
       <AddEvent />

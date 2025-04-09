@@ -40,49 +40,56 @@ const EventForm = ({onClose, submitButton, eventData = {}}) => {
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={handleSubmit(handleFormSubmission)}>
-      <div className={styles.inputContainer}>
-        <label htmlFor='title'>Title:</label>
-        <input type='text' id='title' {...register('title', {required: 'required field'})}/>
-        {errors.title && <p className={styles.inputError}>{errors.title.message}</p>}
-      </div>
-
-      <fieldset>
+    <div className={styles.container}>
+      {submitButton === 'Add' ?
+        <h4>Fill in the event details</h4>
+        :
+        <h4>Edit the fields you want to update</h4>
+      }
+      <form className={styles.formContainer} onSubmit={handleSubmit(handleFormSubmission)}>
         <div className={styles.inputContainer}>
-          <label htmlFor='date'>Date:</label>
-          <input type='date' id='date' {...register('date', {required: 'required field'})}/>
-          {errors.date && <p className={styles.inputError}>{errors.date.message}</p>}
+          <label htmlFor='title'>Title:</label>
+          <input type='text' id='title' {...register('title', {required: 'required field'})}/>
+          {errors.title && <p className={styles.inputError}>{errors.title.message}</p>}
+        </div>
+
+        <fieldset>
+          <div className={styles.inputContainer}>
+            <label htmlFor='date'>Date:</label>
+            <input type='date' id='date' {...register('date', {required: 'required field'})}/>
+            {errors.date && <p className={styles.inputError}>{errors.date.message}</p>}
+          </div>
+
+          <div className={styles.inputContainer}>
+            <label htmlFor='time'>Time:</label>
+            <input type='time' id='time' {...register('time', {required: 'required field'})}/>
+            {errors.time && <p className={styles.inputError}>{errors.time.message}</p>}
+          </div>
+        </fieldset>
+
+        <div className={styles.inputContainer}>
+          <label htmlFor='venue'>Venue:</label>
+          <input type='text' id='venue' {...register('venue', {required: 'required field'})}/>
+          {errors.venue && <p className={styles.inputError}>{errors.venue.message}</p>}
         </div>
 
         <div className={styles.inputContainer}>
-          <label htmlFor='time'>Time:</label>
-          <input type='time' id='time' {...register('time', {required: 'required field'})}/>
-          {errors.time && <p className={styles.inputError}>{errors.time.message}</p>}
+          <label htmlFor='banner'>Photo:</label>
+          <input type='file' id='banner' {...register('banner', {required: isUpdateMode ? false : 'required field'})}/>
+          {errors.banner && <p className={styles.inputError}>{errors.banner.message}</p>}
         </div>
-      </fieldset>
 
-      <div className={styles.inputContainer}>
-        <label htmlFor='venue'>Venue:</label>
-        <input type='text' id='venue' {...register('venue', {required: 'required field'})}/>
-        {errors.venue && <p className={styles.inputError}>{errors.venue.message}</p>}
-      </div>
-
-      <div className={styles.inputContainer}>
-        <label htmlFor='banner'>Photo:</label>
-        <input type='file' id='banner' {...register('banner', {required: isUpdateMode ? false : 'required field'})}/>
-        {errors.banner && <p className={styles.inputError}>{errors.banner.message}</p>}
-      </div>
-
-      {isPending && <p>Saving...</p>}
-      {!isPending && (
-        <div className={`${styles.formButtons} ${isUpdateMode ? styles.buttonsBotPosition : ''}`}>
-          <button type='submit' className={styles.submitButton} disabled={!isValid}>{submitButton}</button>
-          <button type='button' className={styles.resetButton} onClick={() => reset()}>Reset</button>
-          {isUpdateMode && <button type='button' className={styles.cancelButton} onClick={onClose}>Cancel</button>}
-        </div>
-      )}
-      {isError && <p>Error: {error || 'An unknown error occurred'}</p>}
-    </form>
+        {isPending && <p>Saving...</p>}
+        {!isPending && (
+          <div className={styles.formButtons}>
+            <button type='submit' className={styles.submitButton} disabled={!isValid}>{submitButton}</button>
+            <button type='button' className={styles.resetButton} onClick={() => reset()}>Reset</button>
+            {isUpdateMode && <button type='button' className={styles.cancelButton} onClick={onClose}>Cancel</button>}
+          </div>
+        )}
+        {isError && <p>Error: {error || 'An unknown error occurred'}</p>}
+      </form>
+    </div>
   );
 }
 

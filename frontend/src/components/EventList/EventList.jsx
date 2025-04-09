@@ -6,7 +6,7 @@ import PreviewEvent from '../PreviewEvent/PreviewEvent.jsx';
 import styles from './EventList.module.css';
 
 const EventList = () => {
-  const [isFutureEventStatus, setIsFutureEventStatus] = useState(true);
+  const [isStatusFuture, setIsStatusFuture] = useState(true);
   const [isSelected, setIsSelected] = useState(null);
 
   const {data, isLoading, isError, error} = useQuery({
@@ -15,13 +15,12 @@ const EventList = () => {
   });
 
   const handleEventListStatusChange = (status) => {
-    setIsFutureEventStatus(status);
+    setIsStatusFuture(status);
     setIsSelected(null);
   };
 
-  const eventsData = isFutureEventStatus ? data?.futureEvents : data?.pastEvents;
+  const eventsData = isStatusFuture ? data?.futureEvents : data?.pastEvents;
   const selectedEvent = eventsData?.find(event => event._id === isSelected);
-  const hasData = Array.isArray(eventsData) && eventsData?.length > 0;
 
   return (
     <>
@@ -38,22 +37,36 @@ const EventList = () => {
           }
 
           <ul className={`${styles.listContainer} ${!isSelected ? styles.wide : ''}`}>
+
             <div className={styles.listTitles}>
               <div className={styles.topButtonsContainer}>
-                <button type='button' className={`${styles.topButton} ${isFutureEventStatus ? styles.active : ''}`} onClick={() => handleEventListStatusChange(true)}>Future Events</button>
-                <button type='button' className={`${styles.topButton} ${!isFutureEventStatus ? styles.active : ''}`} onClick={() => handleEventListStatusChange(false)}>Past Events</button>
+                <button
+                  type='button'
+                  className={`${styles.topButton} ${isStatusFuture ? styles.active : ''}`}
+                  onClick={() => handleEventListStatusChange(true)}
+                >
+                  Future Events
+                </button>
+                <button
+                  type='button'
+                  className={`${styles.topButton} ${!isStatusFuture ? styles.active : ''}`}
+                  onClick={() => handleEventListStatusChange(false)}
+                >
+                  Past Events
+                </button>
               </div>
-              {!isSelected && hasData && <span>Click on an event to preview</span>}
+              {!isSelected && eventsData?.length && <span>Click on an event to preview</span>}
             </div>
 
-            {hasData && eventsData.map(event =>
-                <EventListItem
-                  key={event._id}
-                  event={event}
-                  onClick={() => setIsSelected(event._id)}
-                />
+            {eventsData?.length ? eventsData.map(event =>
+              <EventListItem
+                key={event._id}
+                event={event}
+                onClick={() => setIsSelected(event._id)}
+              />
+            ) : (
+              <p>No registered events...</p>
             )}
-            {!hasData && <p>No registered events...</p>}
           </ul>
 
         </div>

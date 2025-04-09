@@ -3,16 +3,15 @@
     flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    margin: 1rem 0;
+    justify-content: space-between;
     width: calc(33vw - 3rem);
     min-width: 20rem;
-    height: calc(100vh - 6rem);
     background-color: #181818;
     border-radius: 0.4rem;
     border: 1px solid #ffffff9f;
     position: fixed;
-    top: 4rem;
+    top: calc(50% + 2rem);
+    transform: translateY(-50%);
 }
 
 .imageContainer{
@@ -65,7 +64,7 @@
     align-items: center;
     justify-content: center;
     padding: 0 1rem;
-    margin: 1rem 0;
+    margin: 3rem 0;
 }
 
 .infoContainer svg{
@@ -92,8 +91,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    bottom: 3rem;
+    margin-bottom: 3rem;
 }
 
 .buttonsContainer button,
@@ -132,32 +130,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    position: absolute;
-    bottom: 3rem;
+    margin-bottom: 3rem;
 }
 
 .updateFormContainer{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 3rem;
+    justify-content: space-evenly;
     width: 100%;
     height: 100%;
-}
-
-.updateFormContainer p{
-    margin-bottom: 1rem;
 }
 
 /*screen sizes up to 480px width*/
 @media (max-width: 480px){
     .previewContainer{
         width: calc(100vw - 6rem);
-    }
-
-    .infoContainer{
-        margin: 0.5rem 0;
     }
 
     .previewContainer p{
@@ -175,10 +163,6 @@
     .previewContainer{
         width: calc(70vw - 6rem);
     }
-
-    .infoContainer{
-        margin: 0.5rem 0;
-    }
 }
 
 /*screen sizes width range 481px-768px*/
@@ -187,16 +171,7 @@
         width: calc(70vw - 6rem);
     }
 
-    .infoContainer{
-        margin: 0.3rem 0;
-    }
-
     .title{
         padding-bottom: 0.7rem;
-    }
-
-    .buttonsContainer,
-    .deletePromptContainer{
-        bottom: 2rem;
     }
 }

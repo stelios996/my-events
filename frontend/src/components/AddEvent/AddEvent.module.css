@@ -7,7 +7,7 @@
     position: fixed;
     bottom: 0;
     color:#fff;
-    transform: translateY(27.8rem);
+    transform: translateY(29rem);
 }
 
 .open{
@@ -15,7 +15,7 @@
     transition: transform 0.8s ease-in-out;
 }
 
-.handler{
+.handle{
     background-color: #181818;
     padding:0.5rem 1rem;
     border-radius: 0.4rem 0.4rem 0 0;
@@ -26,18 +26,13 @@
     z-index: 100;
 }
 
-.handler span:hover{
+.handle span:hover{
     cursor: pointer;
 }
 
-.addFormContainer {
+.content{
     background-color: #181818;
-    width: 100%;
+    width: 25rem;
     border-radius: 0.4rem 0.4rem 0 0;
     box-shadow: 0 0 0.3rem rgba(256, 256, 256, 0.3);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
