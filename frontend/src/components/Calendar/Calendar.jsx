@@ -3,6 +3,8 @@ import styles from './Calendar.module.css';
 import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, getDay, startOfMonth, startOfWeek, subMonths} from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
+import {getAllEvents, getEventsByMonth} from "../../api/api.js";
+import {useQuery} from "@tanstack/react-query";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -12,20 +14,24 @@ const Calendar = () => {
     const weekEnd = endOfWeek(new Date(), { weekStartsOn: 0 });
     const week = eachDayOfInterval({start: weekStart, end: weekEnd});
 
-    return week.map(day=>format(day, 'iii'));
+    return week.map(day => format(day, 'iii'));
   }, []);
 
-  const month = useMemo(() => {
-    const start = startOfMonth(currentDate);
-    const end = endOfMonth(currentDate);
-    const days = eachDayOfInterval({start, end});
+  const start = startOfMonth(currentDate);
+  const end = endOfMonth(currentDate);
+  const days = eachDayOfInterval({start, end});
 
-    return [
-      ...new Array(getDay(start)).fill(null),
-      ...days,
-      ...new Array(6 - getDay(end)).fill(null)
-    ];
-  }, [currentDate]);
+  const monthDays = [
+    ...new Array(getDay(start)).fill(null),
+    ...days,
+    ...new Array(6 - getDay(end)).fill(null)
+  ];
+
+  const {data, isLoading, isError, error} = useQuery({
+    queryKey: ['eventsByMonth', start, end],
+    queryFn: ({signal, queryKey}) => getEventsByMonth({signal, queryKey}),
+  });
+  //TODO: render the data and the isLoading
 
   return (
     <>
@@ -44,11 +50,13 @@ const Calendar = () => {
           </button>
         </div>
 
+        {isError && <p className={styles.error}>{error}</p>}
+
         <ul className={styles.calendarGrid}>
           {dayNames.map(weekday => {
             return <li key={weekday} className={styles.weekday}>{weekday}</li>;
           })}
-          {month.map((day, index) => {
+          {monthDays.map((day, index) => {
             const isToday = day && format(day, 'MM-dd-yyyy') === format(new Date(), 'MM-dd-yyyy');
 
             return <li key={day?.toISOString() ?? index} className={`${styles.day} ${isToday ? styles.today : ''}`}>

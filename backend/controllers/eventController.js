@@ -51,6 +51,23 @@ const getAllEventsController = async (req,res) => {
   }
 };
 
+const getEventsByMonthController = async (req,res) => {
+  try{
+    const {start, end} = req.body;
+    if(!start || !end)
+      return res.status(400).json({error: 'No dates interval of month declared'});
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const eventsOfMonth = await Event.find({ date: { $gte: startDate, $lte: endDate }}).sort({ date: 1 });
+
+    res.status(200).json(eventsOfMonth);
+  }catch(err){
+    res.status(500).json({error: err.message});
+  }
+};
+
 const getEventController = async (req,res) => {
   try{
     const event = await Event.findById(req.params.id);
@@ -126,6 +143,7 @@ const controllers = {
   logBrowserController,
   addEventController,
   getAllEventsController,
+  getEventsByMonthController,
   getEventController,
   updateEventController,
   deleteEventController

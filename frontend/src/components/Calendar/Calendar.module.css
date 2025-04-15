@@ -86,3 +86,8 @@
     background-color: #a9a9a9;
     font-size: 1.6rem;
 }
+
+.error{
+    font-style: italic;
+    color: #8b0000;
+}
