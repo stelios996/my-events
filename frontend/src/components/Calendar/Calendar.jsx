@@ -3,11 +3,13 @@ import styles from './Calendar.module.css';
 import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, getDay, startOfMonth, startOfWeek, subMonths} from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import {getAllEvents, getEventsByMonth} from "../../api/api.js";
+import {getEventsByMonth} from "../../api/api.js";
 import {useQuery} from "@tanstack/react-query";
+import DrawerEventList from "../DrawerEventList/DrawerEventList.jsx";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [viewingEvents, setViewingEvents] = useState(null);
 
   const dayNames = useMemo(() => {
     const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
@@ -31,7 +33,6 @@ const Calendar = () => {
     queryKey: ['eventsByMonth', start, end],
     queryFn: ({signal, queryKey}) => getEventsByMonth({signal, queryKey}),
   });
-  //TODO: render the data and the isLoading
 
   return (
     <>
@@ -50,6 +51,7 @@ const Calendar = () => {
           </button>
         </div>
 
+        {isLoading && <p>Loading...</p>}
         {isError && <p className={styles.error}>{error}</p>}
 
         <ul className={styles.calendarGrid}>
@@ -58,14 +60,36 @@ const Calendar = () => {
           })}
           {monthDays.map((day, index) => {
             const isToday = day && format(day, 'MM-dd-yyyy') === format(new Date(), 'MM-dd-yyyy');
+            const dayKey = day ? format(day, 'yyyy-MM-dd') : null;
+            const eventsOfDay = data?.[dayKey] || [];
 
-            return <li key={day?.toISOString() ?? index} className={`${styles.day} ${isToday ? styles.today : ''}`}>
-                      {day ? format(day, 'dd') : ''}
-                  </li>;
+            return (
+              <li key={day?.toISOString() ?? index}
+                  className={`${styles.day} ${isToday ? styles.today : ''} ${!day ? styles.greyedOut : ''}`}
+              >
+                {day ? (
+                  <>
+                    <span>{format(day, 'dd')}</span>
+                    {eventsOfDay.length > 0 &&
+                      <span
+                        className={styles.counter}
+                        onClick={() => setViewingEvents(eventsOfDay)}
+                      >
+                        {eventsOfDay.length} events
+                      </span>
+                    }
+                  </>
+                ) :
+                  ''
+                }
+              </li>
+            );
           })}
         </ul>
 
       </div>
+
+      {viewingEvents && <DrawerEventList events={viewingEvents} onClose={() => setViewingEvents(null)}/>}
     </>
   );
 }

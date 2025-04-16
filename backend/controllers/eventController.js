@@ -62,7 +62,13 @@ const getEventsByMonthController = async (req,res) => {
 
     const eventsOfMonth = await Event.find({ date: { $gte: startDate, $lte: endDate }}).sort({ date: 1 });
 
-    res.status(200).json(eventsOfMonth);
+    const groupedPerDay = eventsOfMonth.reduce((acc, event) => {
+      const dayKey = new Date(event.date).toISOString().split('T')[0];
+      acc[dayKey] = acc[dayKey] ? [...acc[dayKey], event] : [event];
+      return acc;
+    }, {});
+
+    res.status(200).json(groupedPerDay);
   }catch(err){
     res.status(500).json({error: err.message});
   }

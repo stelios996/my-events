@@ -4,7 +4,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     margin-bottom: 0.5rem;
-    padding: 0.5rem 1.5rem;
+    padding: 0.3rem 1.5rem;
     border-radius: 0.4rem;
     border-left: 1px solid #ffffff9f;
     border-bottom: 1px solid #ffffff9f;
@@ -32,6 +32,7 @@ p{
     margin-block-end: 0.1rem;
     font-style: italic;
     color: #ffffff9f;
+    font-size: 0.9rem;
 }
 
 .itemContainer svg{

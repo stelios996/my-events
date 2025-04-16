@@ -14,10 +14,7 @@ export const getAllEvents = async ({signal}) => {
 
 export const getEventsByMonth = async ({signal, queryKey}) => {
   const [_, start, end] = queryKey;
-  const payload = {
-    start: start.toISOString(),
-    end: end.toISOString()
-  };
+  const payload = {start, end};
 
   const response = await fetch(`${backendBaseUrl}events/byMonth`, {
     method: 'POST',
