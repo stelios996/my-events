@@ -28,7 +28,8 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
   const {mutate, isPending, isError, error} = useMutation({
     mutationFn: (id) => deleteEvent(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['events']);
+      queryClient.invalidateQueries({queryKey: ['events']});
+      queryClient.invalidateQueries({queryKey: ['eventsByMonth']});
       setIsDeletePromptVisible(false);
       onClose();
     }

@@ -3,35 +3,63 @@ import styles from './DrawerEventList.module.css';
 import EventListItem from '../EventListItem/EventListItem.jsx';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
+import PreviewEvent from "../PreviewEvent/PreviewEvent.jsx";
+import {useQuery} from "@tanstack/react-query";
+import {getEventsByMonth} from "../../api/api.js";
+import {format} from "date-fns";
 
-const DrawerEventList = ({events, onClose}) => {
-  //TODO: preview the selected event upon click on a specific event from the list
+const DrawerEventList = ({date, start, end, onClose}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     setIsOpen(true);
   }, []);
 
+  const {data, isLoading, isError, error} = useQuery({
+    queryKey: ['eventsByMonth', start, end],
+    queryFn: ({signal, queryKey}) => getEventsByMonth({signal, queryKey}),
+  });
+  const events = data?.[format(date, 'yyyy-MM-dd')] ?? [];
+
+  const handleDrawerClose = () => {
+    setSelectedEvent(null);
+    onClose();
+  };
+
   return (
-    <>
-      <div className={styles.backdrop} onClick={onClose}></div>
+    <div className={styles.drawerWrapper}>
+      <div className={styles.backdrop} onClick={handleDrawerClose}></div>
       <div className={`${styles.drawerContainer} ${isOpen ? styles.open : ''}`}>
         <button
           type='button'
           className={styles.closeButton}
-          onClick={onClose}
+          onClick={handleDrawerClose}
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
+
+        {isLoading && <p>Loading...</p>}
+        {isError && <p className={styles.error}>{error}</p>}
+
         {events?.map(event =>
           <EventListItem
             key={event._id}
             event={event}
-            onClick={() => {}}
+            onClick={() => setSelectedEvent(event)}
           />
         )}
       </div>
-    </>
+
+      {selectedEvent && (
+        <div className={styles.previewEventContainer}>
+          <PreviewEvent
+            selectedEvent={selectedEvent}
+            onClose={() => setSelectedEvent(null)}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 

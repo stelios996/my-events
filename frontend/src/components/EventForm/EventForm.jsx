@@ -21,6 +21,7 @@ const EventForm = ({onClose, submitButton, eventData = {}}) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['events']});
+      queryClient.invalidateQueries({queryKey: ['eventsByMonth']});
       onClose();
     }
   });

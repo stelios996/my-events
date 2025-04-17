@@ -9,7 +9,7 @@ import DrawerEventList from "../DrawerEventList/DrawerEventList.jsx";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewingEvents, setViewingEvents] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const dayNames = useMemo(() => {
     const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
@@ -73,7 +73,7 @@ const Calendar = () => {
                     {eventsOfDay.length > 0 &&
                       <span
                         className={styles.counter}
-                        onClick={() => setViewingEvents(eventsOfDay)}
+                        onClick={() => setSelectedDate(dayKey)}
                       >
                         {eventsOfDay.length} events
                       </span>
@@ -89,7 +89,14 @@ const Calendar = () => {
 
       </div>
 
-      {viewingEvents && <DrawerEventList events={viewingEvents} onClose={() => setViewingEvents(null)}/>}
+      {selectedDate &&
+        <DrawerEventList
+          date={selectedDate}
+          start={start}
+          end={end}
+          onClose={() => setSelectedDate(null)}
+        />
+      }
     </>
   );
 }

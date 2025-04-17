@@ -1,3 +1,16 @@
+.drawerWrapper{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 100;
+}
+
 .backdrop{
     width: 100vw;
     height: 100vh;
@@ -11,16 +24,13 @@
 .drawerContainer{
     width: 33vw;
     height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
     background-color: #000000;
-    z-index: 100;
-    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
+    padding: 0.5rem;
+    z-index: 100;
     transform: translateX(-34vw);
     overflow-y: auto;
 }
@@ -31,10 +41,24 @@
 }
 
 .closeButton{
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     cursor: pointer;
     background: none;
     border: none;
     text-decoration: underline;
     font-size: 1.5rem;
+}
+
+.error{
+    font-style: italic;
+    color: #8b0000;
+}
+
+.previewEventContainer{
+    width: 67vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
