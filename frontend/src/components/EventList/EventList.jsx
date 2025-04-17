@@ -31,7 +31,7 @@ const EventList = () => {
 
           {isSelected &&
             <PreviewEvent
-              selectedEvent={selectedEvent}
+              eventId={selectedEvent._id}
               onClose={() => setIsSelected(null)}
             />
           }

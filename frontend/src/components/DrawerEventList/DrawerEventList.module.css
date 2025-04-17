@@ -49,6 +49,14 @@
     font-size: 1.5rem;
 }
 
+.dayTitle{
+    align-self: center;
+    font-style: italic;
+    margin: 0 0 1rem 0;
+    border-bottom: 1px solid #ffffff;
+    padding: 0 0.5rem;
+}
+
 .error{
     font-style: italic;
     color: #8b0000;

@@ -142,6 +142,13 @@
     height: 100%;
 }
 
+.extraHeight{
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 /*screen sizes up to 480px width*/
 @media (max-width: 480px){
     .previewContainer{

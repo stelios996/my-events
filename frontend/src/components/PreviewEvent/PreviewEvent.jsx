@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteEvent } from '../../api/api.js';
+import {useMutation, useQuery} from '@tanstack/react-query';
+import {deleteEvent, getEvent, queryClient} from '../../api/api.js';
 import PreviewImage from '../PreviewImage/PreviewImage.jsx';
 import EventForm from '../EventForm/EventForm.jsx';
 import { formatDate } from '../../util/util.js';
@@ -8,9 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faClock, faLocationDot, faPen, faXmark, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import styles from './PreviewEvent.module.css';
 
-const PreviewEvent = ({selectedEvent, onClose}) => {
+const PreviewEvent = ({eventId, onClose}) => {
   const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL || 'http://localhost:5000';
-  const queryClient = useQueryClient();
   const [isPreviewImage, setIsPreviewImage] = useState(false);
   const [isDeletePromptVisible, setIsDeletePromptVisible] = useState(false);
   const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
@@ -18,18 +17,19 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
   useEffect(() => {
     setIsDeletePromptVisible(false);
     setIsUpdateFormVisible(false);
-  }, [selectedEvent]);
+  }, [eventId]);
 
-  const handleCloseImagePreview = (e) =>{
-    if(e.target.tagName !== 'IMG')
-      setIsPreviewImage(false);
-  };
+  const {data: selectedEvent, isLoading, isError: isFetchError, error: fetchError} = useQuery({
+    queryKey: ['previewEvent', eventId],
+    queryFn: ({signal}) => getEvent({id: eventId, signal}),
+  });
 
   const {mutate, isPending, isError, error} = useMutation({
     mutationFn: (id) => deleteEvent(id),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['events']});
       queryClient.invalidateQueries({queryKey: ['eventsByMonth']});
+      queryClient.invalidateQueries({queryKey: ['previewEvent']});
       setIsDeletePromptVisible(false);
       onClose();
     }
@@ -40,11 +40,31 @@ const PreviewEvent = ({selectedEvent, onClose}) => {
   };
 
   const handleDeleteEvent = () => {
-    mutate(selectedEvent._id);
+    mutate(eventId);
   };
 
-  if(!selectedEvent)
-    return <div>Event not found!</div>;
+  const handleCloseImagePreview = (e) =>{
+    if(e.target.tagName !== 'IMG')
+      setIsPreviewImage(false);
+  };
+
+  if(isLoading){
+    return <div className={`${styles.previewContainer} ${styles.extraHeight}`}>
+      <p>Loading...</p>
+    </div>;
+  }
+
+  if(isFetchError){
+    return <div className={`${styles.previewContainer} ${styles.extraHeight}`}>
+      <p>Error: {fetchError || 'An unknown error occurred when fetching'}</p>
+    </div>;
+  }
+
+  if(!selectedEvent){
+    return <div className={`${styles.previewContainer} ${styles.extraHeight}`}>
+            <p>Event not found!</p>
+      </div>;
+  }
 
   return (
     <>

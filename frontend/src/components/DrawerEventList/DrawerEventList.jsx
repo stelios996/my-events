@@ -3,14 +3,14 @@ import styles from './DrawerEventList.module.css';
 import EventListItem from '../EventListItem/EventListItem.jsx';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import PreviewEvent from "../PreviewEvent/PreviewEvent.jsx";
-import {useQuery} from "@tanstack/react-query";
-import {getEventsByMonth} from "../../api/api.js";
-import {format} from "date-fns";
+import PreviewEvent from '../PreviewEvent/PreviewEvent.jsx';
+import {useQuery} from '@tanstack/react-query';
+import {getEventsByMonth} from '../../api/api.js';
+import {format} from 'date-fns';
 
 const DrawerEventList = ({date, start, end, onClose}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEventId, setSelectedEventId] = useState(null);
 
   useEffect(() => {
     setIsOpen(true);
@@ -23,7 +23,7 @@ const DrawerEventList = ({date, start, end, onClose}) => {
   const events = data?.[format(date, 'yyyy-MM-dd')] ?? [];
 
   const handleDrawerClose = () => {
-    setSelectedEvent(null);
+    setSelectedEventId(null);
     onClose();
   };
 
@@ -42,20 +42,22 @@ const DrawerEventList = ({date, start, end, onClose}) => {
         {isLoading && <p>Loading...</p>}
         {isError && <p className={styles.error}>{error}</p>}
 
+        <h1 className={styles.dayTitle}>{format(date, 'EEEE dd MMMM yyyy')}</h1>
+
         {events?.map(event =>
           <EventListItem
             key={event._id}
             event={event}
-            onClick={() => setSelectedEvent(event)}
+            onClick={() => setSelectedEventId(event._id)}
           />
         )}
       </div>
 
-      {selectedEvent && (
+      {selectedEventId && (
         <div className={styles.previewEventContainer}>
           <PreviewEvent
-            selectedEvent={selectedEvent}
-            onClose={() => setSelectedEvent(null)}
+            eventId={selectedEventId}
+            onClose={() => setSelectedEventId(null)}
           />
         </div>
       )}
