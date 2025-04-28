@@ -32,12 +32,12 @@
     padding: 0.5rem;
     z-index: 100;
     transform: translateX(-34vw);
+    transition: transform 0.8s ease-in-out;
     overflow-y: auto;
 }
 
 .drawerContainer.open{
     transform: translateX(0);
-    transition: transform 0.8s ease-in-out;
 }
 
 .closeButton{

@@ -13,7 +13,11 @@ const DrawerEventList = ({date, start, end, onClose}) => {
   const [selectedEventId, setSelectedEventId] = useState(null);
 
   useEffect(() => {
-    setIsOpen(true);
+    const animationFrame = requestAnimationFrame(() => {
+      setIsOpen(true);
+    });
+
+    return () => cancelAnimationFrame(animationFrame);
   }, []);
 
   const {data, isLoading, isError, error} = useQuery({

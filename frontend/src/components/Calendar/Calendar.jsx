@@ -1,23 +1,21 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import styles from './Calendar.module.css';
 import { addMonths, eachDayOfInterval, endOfMonth, endOfWeek, format, getDay, startOfMonth, startOfWeek, subMonths} from 'date-fns';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import {getEventsByMonth} from "../../api/api.js";
-import {useQuery} from "@tanstack/react-query";
-import DrawerEventList from "../DrawerEventList/DrawerEventList.jsx";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
+import {getEventsByMonth} from '../../api/api.js';
+import {useQuery} from '@tanstack/react-query';
+import DrawerEventList from '../DrawerEventList/DrawerEventList.jsx';
+import DateNavigationBar from '../DateNavigationBar/DateNavigationBar.jsx';
+
+const dayNames = eachDayOfInterval({
+  start: startOfWeek(new Date(), { weekStartsOn: 0 }),
+  end: endOfWeek(new Date(), { weekStartsOn: 0 }),
+}).map(day => format(day, 'iii'));
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
-
-  const dayNames = useMemo(() => {
-    const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
-    const weekEnd = endOfWeek(new Date(), { weekStartsOn: 0 });
-    const week = eachDayOfInterval({start: weekStart, end: weekEnd});
-
-    return week.map(day => format(day, 'iii'));
-  }, []);
 
   const start = startOfMonth(currentDate);
   const end = endOfMonth(currentDate);
@@ -53,6 +51,11 @@ const Calendar = () => {
 
         {isLoading && <p>Loading...</p>}
         {isError && <p className={styles.error}>{error}</p>}
+
+        <DateNavigationBar
+          onToday={() => setCurrentDate(new Date())}
+          onNavigate={date => setCurrentDate(date)}
+        />
 
         <ul className={styles.calendarGrid}>
           {dayNames.map(weekday => {
