@@ -127,17 +127,20 @@ const updateEventController = async (req,res) => {
 const deleteEventController = async (req,res) => {
   try{
     const event = await Event.findById(req.params.id);
-
     if (!event)
       return res.status(404).json({ message: 'Event not found' });
 
-    if (event.banner)
-      await deleteOldFile(event.banner);
-
     const deletedEvent = await Event.findByIdAndDelete(req.params.id);
-
     if (!deletedEvent)
       return res.status(404).json({message: 'Event not found'});
+
+    if (event.banner) {
+      try {
+        await deleteOldFile(event.banner);
+      } catch (fileErr) {
+        console.error(`Failed to delete file: ${event.banner}`, fileErr);
+      }
+    }
 
     res.status(200).json({message: `Event deleted successfully`});
   }catch(err) {

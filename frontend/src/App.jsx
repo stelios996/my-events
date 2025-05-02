@@ -1,16 +1,32 @@
 import './App.css'
+import {lazy, Suspense} from 'react';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import EventList from './components/EventList/EventList.jsx';
-import Calendar from './components/Calendar/Calendar.jsx';
 import Home from './components/Home/Home.jsx';
+
+const EventList = lazy(() => import('./components/EventList/EventList.jsx'));
+const Calendar = lazy(() => import('./components/Calendar/Calendar.jsx'));
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
     children: [
-      {path: '', element: <EventList />},
-      {path: 'calendar', element: <Calendar />}
+      {
+        path: '',
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <EventList />
+          </Suspense>
+        )
+      },
+      {
+        path: 'calendar',
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <Calendar />
+          </Suspense>
+        )
+      }
     ]
   }
 ]);
